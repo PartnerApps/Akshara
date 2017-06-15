@@ -1,0 +1,322 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding_layout"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+    <LinearLayout
+        android:id="@+id/templateHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_grey"
+        android:padding="@dimen/padding_layout"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        >
+
+
+        <org.akshara.customviews.CustomTextView
+            android:id="@+id/tvtemplateHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:gravity="center"
+            android:textColor="@color/color_text_lablel"
+            android:textSize="14sp"
+            android:text="@string/akshara_template"
+            custom:fontAssetName="Roboto-Regular.ttf"
+            />
+
+
+    </LinearLayout>
+
+
+    <org.akshara.customviews.CustomEditText
+        android:layout_below="@+id/templateHeading"
+        android:id="@+id/edittemplateName"
+         android:visibility="visible"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        style="@style/EditText_round_style"
+        android:hint="Enter template name"
+        custom:fontAssetName="Roboto-Regular.ttf"/>
+
+
+
+    <ScrollView
+        android:layout_below="@+id/edittemplateName"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/margin_bottom_scroll"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:id="@+id/createLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                >
+                <org.akshara.customviews.CustomButton
+                    android:id="@+id/generateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/login_button_height"
+                    android:layout_margin="@dimen/margin_btn"
+                    android:background="@drawable/roundbutton"
+                    android:padding="5dp"
+                    android:visibility="visible"
+                    android:gravity="center"
+                    android:text="Text"
+                    android:textColor="@color/color_text_lablel"
+                    android:textSize="@dimen/size_16"
+                    custom:fontAssetName="Roboto-Medium.ttf" />
+
+                <org.akshara.customviews.CustomButton
+                    android:id="@+id/generateDropDown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/login_button_height"
+                    android:layout_margin="@dimen/margin_btn"
+                    android:padding="5dp"
+                    android:background="@drawable/roundbutton"
+                    android:visibility="visible"
+                    android:gravity="center"
+                    android:text="DropDown"
+                    android:textColor="@color/color_text_lablel"
+                    android:textSize="@dimen/size_16"
+                    custom:fontAssetName="Roboto-Medium.ttf" />
+
+
+
+
+            </LinearLayout>
+            <org.akshara.customviews.CustomTextView
+                android:id="@+id/selectionTypeLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:padding="@dimen/padding_text_akshara"
+                android:layout_gravity="center"
+                android:textColor="@color/color_text_lablel"
+                android:textSize="@dimen/padding_textSize_akshara"
+                android:text="@string/selectionType"
+                custom:fontAssetName="Roboto-Regular.ttf"
+                />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                 style="@style/spinner_style"
+                android:popupBackground="@color/white"
+                android:focusableInTouchMode="true"
+                android:id="@+id/spinnerselectionType"
+                android:spinnerMode="dropdown"
+                />
+
+
+            <org.akshara.customviews.CustomTextView
+                android:id="@+id/labelName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_gravity="center"
+                android:textColor="@color/color_text_lablel"
+                android:textSize="15sp"
+                android:visibility="gone"
+                android:text="Enter label name"
+                custom:fontAssetName="Roboto-Regular.ttf"
+                />
+            <org.akshara.customviews.CustomEditText
+                android:id="@+id/labelNameValue"
+                android:visibility="gone"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                style="@style/EditText_round_style"
+                android:hint="Enter label name"
+                custom:fontAssetName="Roboto-Regular.ttf"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:id="@+id/displayLayout"
+            >
+
+        </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:padding="@dimen/padding_layout"
+                >
+                <org.akshara.customviews.CustomButton
+                    android:id="@+id/Create_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/login_button_height"
+                    android:padding="5dp"
+                    android:background="@drawable/roundbutton"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:text="SAVE"
+                    android:textColor="@color/color_text_lablel"
+                    android:textSize="@dimen/size_16"
+                    custom:fontAssetName="Roboto-Medium.ttf" />
+
+                <org.akshara.customviews.CustomButton
+                    android:id="@+id/Cancel_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/login_button_height"
+                    android:padding="5dp"
+                    android:background="@drawable/roundbutton"
+                    android:visibility="gone"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center"
+                    android:text="CANCEL"
+                    android:textColor="@color/color_text_lablel"
+                    android:textSize="@dimen/size_16"
+                    custom:fontAssetName="Roboto-Medium.ttf" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+
+
+
+
+    <org.akshara.customviews.CustomButton
+        android:id="@+id/save_template_btn"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/edittemplateName"
+        android:layout_height="@dimen/login_button_height"
+        android:layout_margin="@dimen/margin_btn"
+        android:background="@drawable/roundbutton"
+        android:visibility="visible"
+        android:gravity="center"
+        android:text="SAVE TEMPLATE"
+        android:textColor="@color/color_text_lablel"
+        android:textSize="@dimen/size_16"
+        custom:fontAssetName="Roboto-Regular.ttf" />
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:visibility="gone"
+        android:id="@+id/menu_labels_right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        fab:menu_labels_ellipsize="end"
+        fab:menu_labels_singleLine="true"
+        fab:menu_labels_style="@style/MenuLabelsStyle"
+        fab:menu_shadowColor="#444"
+        fab:menu_colorNormal="#FFB805"
+        fab:menu_colorPressed="#F2AB00"
+        fab:menu_colorRipple="#D99200"
+        fab:menu_backgroundColor="#ccffffff"
+        fab:menu_labels_position="left">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabGenerateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icn_text"
+            fab:fab_colorNormal="@color/ColorPrimary"
+            fab:fab_colorPressed="@color/ColorPrimaryDark"
+            fab:fab_colorRipple="@color/ColorPrimary"
+            fab:fab_showShadow="true"
+            fab:fab_shadowColor="#66000000"
+            fab:fab_shadowRadius="4dp"
+            fab:fab_shadowXOffset="1dp"
+            fab:fab_shadowYOffset="3dp"
+            fab:fab_size="mini"
+            fab:fab_label="Text" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabGenerateDropDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dropdown"
+            fab:fab_colorNormal="@color/ColorPrimary"
+            fab:fab_colorPressed="@color/ColorPrimaryDark"
+            fab:fab_colorRipple="@color/ColorPrimary"
+            fab:fab_showShadow="true"
+            fab:fab_shadowColor="#66000000"
+            fab:fab_shadowRadius="4dp"
+            fab:fab_shadowXOffset="1dp"
+            fab:fab_shadowYOffset="3dp"
+            fab:fab_size="mini"
+            fab:fab_label="DropDown" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabGenerateCommentBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icn_comment"
+            fab:fab_colorNormal="@color/ColorPrimary"
+            fab:fab_colorPressed="@color/ColorPrimaryDark"
+            fab:fab_colorRipple="@color/ColorPrimary"
+            fab:fab_showShadow="true"
+            fab:fab_shadowColor="#66000000"
+            fab:fab_shadowRadius="4dp"
+            fab:fab_shadowXOffset="1dp"
+            fab:fab_shadowYOffset="3dp"
+            fab:fab_size="mini"
+            fab:fab_label="Comment Box" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabGenerateMultipleChoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icn_multiplechoice"
+            fab:fab_colorNormal="@color/ColorPrimary"
+            fab:fab_colorPressed="@color/ColorPrimaryDark"
+            fab:fab_colorRipple="@color/ColorPrimary"
+            fab:fab_showShadow="true"
+            fab:fab_shadowColor="#66000000"
+            fab:fab_shadowRadius="4dp"
+            fab:fab_shadowXOffset="1dp"
+            fab:fab_shadowYOffset="3dp"
+            fab:fab_size="mini"
+            fab:fab_label="Multiple Choice" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabGenerateMatrix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icn_matrix"
+            android:visibility="gone"
+            fab:fab_colorNormal="@color/ColorPrimary"
+            fab:fab_colorPressed="@color/ColorPrimaryDark"
+            fab:fab_colorRipple="@color/ColorPrimary"
+            fab:fab_showShadow="true"
+            fab:fab_shadowColor="#66000000"
+            fab:fab_shadowRadius="4dp"
+            fab:fab_shadowXOffset="1dp"
+            fab:fab_shadowYOffset="3dp"
+            fab:fab_size="mini"
+            fab:fab_label="Matrix" />
+
+
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+
+
+
+</RelativeLayout>

@@ -1,0 +1,80 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="@dimen/padding_layout"
+    tools:context=".fragment.NewChildListFragment">
+
+    <org.akshara.customviews.MyProgressBar
+        android:id="@+id/sendingDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/searchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:background="@drawable/btn_dropdown"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_layout"
+        >
+
+        <ImageView
+            android:id="@+id/icn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:src="@drawable/icn_search"
+            android:visibility="visible" />
+
+        <org.akshara.customviews.CustomAutoCompleteView
+            android:id="@+id/autoCompleteTextView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:background="@android:color/transparent"
+            android:completionThreshold="1"
+            android:dropDownVerticalOffset="5dp"
+            android:ems="10"
+            android:hint="search child by name"
+            android:inputType="text">
+
+            <requestFocus />
+
+        </org.akshara.customviews.CustomAutoCompleteView>
+
+
+    </LinearLayout>
+
+    <org.akshara.customviews.CustomTextView
+        android:id="@+id/textNoData"
+        style="@style/text_style"
+        android:layout_below="@id/searchLayout"
+        android:text="There are no profile matching "
+        android:visibility="gone"
+        custom:fontAssetName="Roboto-Regular.ttf" />
+
+
+    <org.akshara.customviews.CustomButton
+        android:id="@+id/create_profile_btn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/login_button_height"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/margin_btn"
+        android:background="@drawable/roundbutton"
+        android:gravity="center"
+        android:text="CREATE PROFILE"
+        android:textColor="@color/color_text_lablel"
+        android:textSize="@dimen/size_16"
+        android:visibility="gone"
+        custom:fontAssetName="Roboto-Regular.ttf" />
+
+
+</RelativeLayout>

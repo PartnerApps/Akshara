@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.akshara"
+    android:versionCode="1"
+    android:versionName="1.5">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".Util.Util"
+        android:allowBackup="true"
+        android:icon="@mipmap/img_logo"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:theme="@style/AksharaTheme">
+        <activity
+            android:name=".activity.Splashscreeen"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:largeHeap="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.MainActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize|adjustPan" />
+        <!-- ReadCsv file -->
+        <service android:name=".services.CSVService" />
+
+        <activity android:name=".activity.SimplePinAuthActivity" />
+
+        <activity
+            android:name=".activity.DriveSyncActivity"
+             />
+
+        <service
+            android:name=".services.FetchPartnerDataService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service android:name=".services.WritePartnerDataInFile"
+            android:enabled="true"
+            android:exported="false" />
+    </application>
+
+</manifest>

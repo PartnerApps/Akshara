@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:padding="@dimen/padding_layout"
+    tools:context=".MainActivity">
+
+   <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+       android:paddingLeft="@dimen/padding_layout"
+       android:paddingRight="@dimen/padding_layout"
+       android:orientation="horizontal"
+       android:weightSum="2"
+       >
+
+       <org.akshara.customviews.CustomTextView
+           android:id="@+id/textLabel"
+           android:layout_width="0dp"
+           android:padding="4dp"
+           android:layout_weight="1"
+           android:layout_height="wrap_content"
+           android:layout_gravity="left"
+           android:textColor="@color/color_text_lablel"
+           android:textSize="14sp"
+           android:text="Father's Name "
+           custom:fontAssetName="Roboto-Regular.ttf.ttf"
+           />
+        <org.akshara.customviews.CustomTextView
+               android:id="@+id/textLabelValue"
+            android:layout_width="0dp"
+            android:padding="4dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+               android:textColor="@color/color_text_lablel_value"
+               android:textSize="14sp"
+               android:text="abc_action_bar_home_description "
+               custom:fontAssetName="Roboto-Regular.ttf.ttf"
+               />
+
+
+
+
+
+
+
+        </LinearLayout>
+
+</RelativeLayout>

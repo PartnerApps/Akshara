@@ -1,0 +1,112 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:custom="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:padding="@dimen/padding_layout"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_bottom_scroll"
+        >
+
+        <LinearLayout
+            android:id="@+id/linearLayoutFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textNoData"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            >
+            <!--District -->
+            <org.akshara.customviews.CustomTextView
+                style="@style/text_style"
+                android:text="@string/District"
+                custom:fontAssetName="Roboto-Regular.ttf"
+                />
+
+
+            <Spinner
+                android:id="@+id/spinnerDistric"
+                style="@style/spinner_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:popupBackground="@color/white"
+                />
+
+
+            <!-- BLOCK-->
+            <org.akshara.customviews.CustomTextView
+                style="@style/text_style"
+                android:text="@string/Block"
+                custom:fontAssetName="Roboto-Regular.ttf"
+                />
+
+            <Spinner
+                android:id="@+id/spinnerBlock"
+                style="@style/spinner_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:padding="@dimen/padding_layout"
+                android:popupBackground="@color/white"
+                />
+
+            <org.akshara.customviews.CustomTextView
+                style="@style/text_style"
+                android:text="@string/Cluster"
+                custom:fontAssetName="Roboto-Regular.ttf"
+                />
+
+
+            <Spinner
+                android:id="@+id/spinnerCluster"
+                style="@style/spinner_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:padding="@dimen/padding_layout"
+                android:popupBackground="@color/white"
+                />
+
+            <org.akshara.customviews.CustomTextView
+                style="@style/text_style"
+                android:text="@string/School"
+                custom:fontAssetName="Roboto-Regular.ttf"
+                />
+
+
+            <Spinner
+                android:id="@+id/spinnerSchool"
+                style="@style/spinner_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:padding="@dimen/padding_layout"
+                android:popupBackground="@color/white"
+                />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <org.akshara.customviews.CustomButton
+        android:id="@+id/SearchChild_btn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/login_button_height"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/margin_btn"
+        android:background="@drawable/roundbutton"
+        android:gravity="center"
+        android:text="@string/btn_Search_Child"
+        android:textColor="@color/color_text_lablel"
+        android:textSize="@dimen/size_16"
+        android:visibility="visible"
+        custom:fontAssetName="Roboto-Medium.ttf"/>
+
+
+</RelativeLayout>

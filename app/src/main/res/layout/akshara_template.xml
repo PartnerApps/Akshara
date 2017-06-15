@@ -1,0 +1,155 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding_layout"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/akshara_templateLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+
+        <org.akshara.customviews.CustomTextView
+            android:id="@+id/child_nameLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_text_akshara"
+            android:layout_gravity="center"
+            android:textColor="@color/color_text_lablel"
+            android:textSize="@dimen/padding_textSize_akshara"
+            android:text="@string/child_name"
+            custom:fontAssetName="Roboto-Regular.ttf"
+            />
+        <org.akshara.customviews.CustomEditText
+            android:id="@+id/child_name"
+            android:layout_marginLeft="@dimen/margin_text_left_right_akshara"
+            android:layout_marginRight="@dimen/margin_text_left_right_akshara"
+            style="@style/EditText_round_style"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:hint="@string/child_name_hint"
+            android:inputType="text"
+            custom:fontAssetName="Roboto-Regular.ttf"><requestFocus></requestFocus></org.akshara.customviews.CustomEditText>
+        <org.akshara.customviews.CustomTextView
+            android:id="@+id/father_nameLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_text_akshara"
+            android:layout_gravity="center"
+            android:textColor="@color/color_text_lablel"
+            android:textSize="@dimen/padding_textSize_akshara"
+            android:text="@string/father_name"
+            custom:fontAssetName="Roboto-Regular.ttf"
+            />
+        <org.akshara.customviews.CustomEditText
+            android:id="@+id/father_name"
+            android:layout_marginLeft="@dimen/margin_text_left_right_akshara"
+            android:layout_marginRight="@dimen/margin_text_left_right_akshara"
+            android:textCursorDrawable="@drawable/color_cursor"
+            style="@style/EditText_round_style"
+            android:hint="@string/father_name_hint"
+            android:inputType="text"
+            custom:fontAssetName="Roboto-Regular.ttf"></org.akshara.customviews.CustomEditText>
+        <org.akshara.customviews.CustomTextView
+            android:id="@+id/child_classLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_text_akshara"
+            android:layout_gravity="center"
+            android:textColor="@color/color_text_lablel"
+            android:textSize="@dimen/padding_textSize_akshara"
+            android:text="@string/child_class"
+            custom:fontAssetName="Roboto-Regular.ttf"
+            />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/spinner_style"
+            android:popupBackground="@color/white"
+            android:focusableInTouchMode="true"
+            android:id="@+id/spinnerClass"
+            android:spinnerMode="dropdown"
+            />
+
+        <org.akshara.customviews.CustomTextView
+            android:id="@+id/genderLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_text_akshara"
+            android:layout_gravity="center"
+            android:textColor="@color/color_text_lablel"
+            android:textSize="@dimen/padding_textSize_akshara"
+            android:text="@string/gender"
+            custom:fontAssetName="Roboto-Regular.ttf"
+            />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/spinner_style"
+            android:popupBackground="@color/white"
+            android:focusableInTouchMode="true"
+            android:id="@+id/spinnerGender"
+            android:spinnerMode="dropdown"
+            />
+        <org.akshara.customviews.CustomTextView
+            android:id="@+id/dobLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_text_akshara"
+            android:layout_gravity="center"
+            android:textColor="@color/color_text_lablel"
+            android:textSize="@dimen/padding_textSize_akshara"
+            android:text="@string/dob"
+            custom:fontAssetName="Roboto-Regular.ttf"
+            />
+        <org.akshara.customviews.CustomTextView
+            android:id="@+id/txt_dob"
+            android:layout_marginLeft="@dimen/margin_text_left_right_akshara"
+            android:layout_marginRight="@dimen/margin_text_left_right_akshara"
+            style="@style/EditText_round_style"
+            android:hint="@string/dob_hint"
+            custom:fontAssetName="Roboto-Regular.ttf"
+            android:drawableRight="@drawable/icn_dobpicker"
+            android:imeOptions="actionNext"
+            />
+        <org.akshara.customviews.CustomTextView
+            android:id="@+id/languageLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_text_akshara"
+            android:layout_gravity="center"
+            android:textColor="@color/color_text_lablel"
+            android:textSize="@dimen/padding_textSize_akshara"
+            android:text="@string/language"
+            custom:fontAssetName="Roboto-Regular.ttf"
+            />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/spinner_style"
+            android:popupBackground="@color/white"
+            android:focusableInTouchMode="true"
+            android:id="@+id/spinnerLanguage"
+            android:spinnerMode="dropdown"
+            />
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>

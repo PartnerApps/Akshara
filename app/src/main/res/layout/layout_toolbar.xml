@@ -1,0 +1,159 @@
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/ColorPrimary"
+    local:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    local:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+
+    <FrameLayout
+        android:id="@+id/frameId"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize"
+        android:padding="@dimen/padding_layout"
+        android:layout_height="wrap_content">
+
+
+
+        <ImageView
+            android:id="@+id/imageView_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:background="@drawable/menu_images_background"
+            android:clickable="true"
+            android:layout_gravity="left|center_vertical"
+            android:src="@drawable/icn_menu" />
+        <ImageView
+            android:id="@+id/imageView_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|center_vertical"
+            android:clickable="true"
+            android:background="@drawable/menu_images_background"
+            android:visibility="gone"
+            android:src="@drawable/icn_back" />
+
+
+        <ImageView
+            android:id="@+id/imageView_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:background="@drawable/menu_images_background"
+            android:layout_gravity="left|center_vertical"
+            android:visibility="gone"
+            android:src="@drawable/icn_close" />
+
+        <org.akshara.customviews.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/app_name"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/color_text_lablel"
+            android:textSize="@dimen/size_16"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="@dimen/margin_top_45"
+            custom:fontAssetName="Roboto-Regular.ttf"
+            android:id="@+id/toolbar_title" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="right"
+            android:layout_height="match_parent">
+
+
+
+            <org.akshara.customviews.CustomTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Connect"
+                android:gravity="center"
+                android:singleLine="true"
+                android:visibility="gone"
+                android:textColor="@color/color_text_lablel"
+                android:textSize="@dimen/size_16"
+                android:layout_marginRight="@dimen/margin_top_45"
+                custom:fontAssetName="Roboto-Regular.ttf"
+                android:id="@+id/toolbar_Connect" />
+
+
+
+
+
+        </LinearLayout>
+
+
+       <!-- <ImageView
+            android:id="@+id/imageView_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|center_vertical"
+            android:clickable="true"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:background="@drawable/menu_images_background"
+            android:visibility="gone"
+            android:src="@drawable/icn_back" />
+
+
+        <ImageView
+            android:id="@+id/imageView_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:background="@drawable/menu_images_background"
+            android:layout_gravity="left|center_vertical"
+            android:visibility="gone"
+            android:src="@drawable/icn_close" />
+
+        <org.akshara.customviews.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/app_name"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/color_text_lablel"
+            android:textSize="@dimen/size_16"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="@dimen/margin_top_45"
+            custom:fontAssetName="Roboto-Regular.ttf"
+            android:id="@+id/toolbar_title" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="right"
+        android:layout_height="match_parent">
+
+
+
+        <org.akshara.customviews.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Connect"
+            android:gravity="center"
+            android:singleLine="true"
+            android:visibility="gone"
+            android:textColor="@color/color_text_lablel"
+            android:textSize="@dimen/size_16"
+            android:layout_marginRight="@dimen/margin_top_45"
+            custom:fontAssetName="Roboto-Regular.ttf"
+            android:id="@+id/toolbar_Connect" />
+
+
+
+
+
+         </LinearLayout>
+
+-->
+    </FrameLayout>
+
+
+
+</android.support.v7.widget.Toolbar>
