@@ -45,6 +45,8 @@ public final class StudentDAO {
     public static final String COLUMN_SEX = "sex";
     public static final String COLUMN_CLASS = "class";
     public static final String COLUMN_FATHER_NAME = "father_name";
+    public static final String COLUMN_MOTHER_NAME = "mother_name";
+    public static final String COLUMN_DOB = "dob";
     public static final String COLUMN_UID = "uid";
     public static final String COLUMN_SYNC = "sync";
 
@@ -60,6 +62,8 @@ public final class StudentDAO {
             COLUMN_SEX,
             COLUMN_CLASS,
             COLUMN_FATHER_NAME,
+            COLUMN_MOTHER_NAME,
+            COLUMN_DOB,
             COLUMN_UID
     };
 
@@ -76,6 +80,8 @@ public final class StudentDAO {
             + COLUMN_SEX + " TEXT,"
             + COLUMN_CLASS + " TEXT,"
             + COLUMN_FATHER_NAME + " TEXT,"
+            + COLUMN_MOTHER_NAME + " TEXT,"
+            + COLUMN_DOB + " TEXT,"
             + COLUMN_UID + " TEXT,"
             + COLUMN_SYNC + " INTEGER DEFAULT 0"
             + ");";
@@ -88,11 +94,13 @@ public final class StudentDAO {
             COLUMN_CLUSTER,
             COLUMN_SCHOOL_CODE,
             COLUMN_SCHOOL_NAME,
+            COLUMN_CLASS,
             COLUMN_STUDENT_ID,
             COLUMN_CHILD_NAME,
             COLUMN_SEX,
+            COLUMN_DOB,
             COLUMN_FATHER_NAME,
-            COLUMN_CLASS,
+            COLUMN_MOTHER_NAME
     };
 
 
@@ -415,7 +423,8 @@ public final class StudentDAO {
                         cursor.getString(cursor.getColumnIndex(COLUMN_CLUSTER)));
                 studentInfos[counter].setSchool_code(
                         cursor.getString(cursor.getColumnIndex(COLUMN_SCHOOL_CODE)));
-                studentInfos[counter].setSchool_name(cursor.getString(cursor.getColumnIndex(COLUMN_SCHOOL_NAME)));
+                studentInfos[counter].setSchool_name(
+                        cursor.getString(cursor.getColumnIndex(COLUMN_SCHOOL_NAME)));
                 studentInfos[counter].set_class(
                         cursor.getString(cursor.getColumnIndex(COLUMN_CLASS)));
                 studentInfos[counter].setStudent_id(
@@ -428,6 +437,11 @@ public final class StudentDAO {
                         cursor.getString(cursor.getColumnIndex(COLUMN_FATHER_NAME)));
                 studentInfos[counter].setUid(
                         cursor.getString(cursor.getColumnIndex(COLUMN_UID)));
+
+                studentInfos[counter].setMother_name(
+                        cursor.getString(cursor.getColumnIndex(COLUMN_MOTHER_NAME)));
+
+                studentInfos[counter].setDob(cursor.getString(cursor.getColumnIndex(COLUMN_DOB)));
 
                 counter++;
             }

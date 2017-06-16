@@ -270,9 +270,9 @@ public class NewChildListFragment extends Fragment implements IEndSession, IUser
         mSelectedStudentMap.put(StudentDAO.COLUMN_CHILD_NAME, mStudentInfoArray[position].getChild_name().trim());
         mSelectedStudentMap.put(StudentDAO.COLUMN_SEX, mStudentInfoArray[position].getSex().trim());
         //mSelectedStudentMap.put(StudentDAO.mother_tongue, mStudentInfoArray[position].getMother_tongue().trim());
-//        mSelectedStudentMap.put(StudentDAO.dob, mStudentInfoArray[position].getDob().trim());
+        mSelectedStudentMap.put(StudentDAO.COLUMN_DOB, mStudentInfoArray[position].getDob().trim());
         mSelectedStudentMap.put(StudentDAO.COLUMN_FATHER_NAME, mStudentInfoArray[position].getFather_name().trim());
-//        mSelectedStudentMap.put(StudentDAO.mother_name, mStudentInfoArray[position].getMother_name().trim());
+        mSelectedStudentMap.put(StudentDAO.COLUMN_MOTHER_NAME, mStudentInfoArray[position].getMother_name().trim());
 
         mSelectedStudentUID = mStudentInfoArray[position].getUid();
         mSelectedStudentId = mStudentInfoArray[position].getStudent_id().trim();
