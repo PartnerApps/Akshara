@@ -51,7 +51,7 @@ android {
         }
         flavor.versionName = versionName;
         variant.outputs.each{ output ->
-            output.outputFile = new File(output.outputFile.parent,"Akshara-ESL-" + versionName + ".apk" )
+            output.outputFile = new File(output.outputFile.parent,"Akshara-GKA-" + versionName + ".apk" )
         }
     }
 }
