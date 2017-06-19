@@ -373,7 +373,7 @@ public final class StudentDAO {
     public void updateSyncState(List<List<Object>> syncedData) {
         if (syncedData != null && syncedData.size() > 0) {
             for (List<Object> studentInfo : syncedData) {
-                String studentId = studentInfo.get(6).toString();
+                String studentId = studentInfo.get(7).toString();
 
                 final String where = COLUMN_STUDENT_ID + " = ?";
                 final String []whereArgs = {

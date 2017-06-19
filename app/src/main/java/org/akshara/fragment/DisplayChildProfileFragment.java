@@ -2,6 +2,7 @@ package org.akshara.fragment;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -54,6 +55,7 @@ import org.akshara.customviews.MyProgressBar;
 import org.akshara.db.StudentDAO;
 import org.akshara.model.Age;
 import org.akshara.model.UserModel;
+import org.akshara.services.WritePartnerDataInFile;
 import org.ekstep.genieresolvers.GenieSDK;
 import org.ekstep.genieresolvers.partner.PartnerService;
 import org.ekstep.genieresolvers.telemetry.TelemetryService;
@@ -699,10 +701,10 @@ public class DisplayChildProfileFragment extends Fragment
 
 
         // TODO: 13/6/17 Later We can enable this
-//        if (getActivity() != null) {
-//            Intent intent = new Intent(getActivity(), WritePartnerDataInFile.class);
-//            getActivity().startService(intent);
-//        }
+        if (getActivity() != null) {
+            Intent intent = new Intent(getActivity(), WritePartnerDataInFile.class);
+            getActivity().startService(intent);
+        }
 
         CurrentUserResponseHandler currentUserResponseHandler = new CurrentUserResponseHandler(this);
 

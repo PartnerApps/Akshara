@@ -52,7 +52,7 @@ public class WritePartnerDataInFile extends Service implements
     private static final boolean DEBUG = BuildConfig.DEBUG;
 
 
-    private static final String FOLDER_NAME = "Akshara-ESL";
+    private static final String FOLDER_NAME = "Akshara-GKL";
 
     private static final String PREF_FILE_ID = "file_id";
     private static final String PREF_FOLDER_ID = "folder_id";
