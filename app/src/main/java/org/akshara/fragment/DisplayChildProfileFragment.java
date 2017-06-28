@@ -95,7 +95,7 @@ public class DisplayChildProfileFragment extends Fragment
     private Spinner spinnerLanguage, spinnerGender, spinnerClass;
     private LinearLayout displayLayout, akshara_templateLayout;
     private TextView child_nameLabel, father_nameLabel, child_classLabel, genderLabel, dobLabel, languageLabel;
-    private EditText child_name, father_name;
+    private EditText child_name, father_name, student_id;
     private UserModel userModel = new UserModel();
     private HashMap<Integer, String> hashMap_order = new HashMap<>();
     private Map<String, Object> hashMapData = new HashMap<>();
@@ -339,6 +339,8 @@ public class DisplayChildProfileFragment extends Fragment
                 } else {
                     String childName = child_name.getText().toString();
                     String fatheName = father_name.getText().toString();
+                    String studentId = student_id.getText().toString();
+
                     if (D)
                         Log.d(TAG, "childName :" + childName);
                     if (D)
@@ -353,8 +355,14 @@ public class DisplayChildProfileFragment extends Fragment
                     Matcher matcher2 = pattern2.matcher(fatheName);
                     Boolean fatheNamepattern = matcher2.matches();
 
+                    Pattern pattern3 = Pattern.compile("[0-9a-zA-Z ]+");
+                    Matcher matcher3 = pattern3.matcher(studentId);
+                    Boolean studentIdPattern = matcher3.matches();
 
-                    if (childName.trim().isEmpty()) {
+                    if (studentId.trim().isEmpty()) {
+                        Util.showToastmessage(mContext, "Please enter student no");
+                    }
+                    else if (childName.trim().isEmpty()) {
                         Util.showToastmessage(mContext, "Please enter " + child_nameLabel.getText().toString());
                     } else if (!childNamepattern) {
                         Util.showToastmessage(mContext, "Please enter valid " + child_nameLabel.getText().toString());
@@ -375,6 +383,7 @@ public class DisplayChildProfileFragment extends Fragment
                     } else {
                         //send Data to Genie services
                         handle = child_name.getText().toString();
+                        hashMapData.put(StudentDAO.COLUMN_STUDENT_ID, student_id.getText().toString().trim());
                         hashMapData.put(StudentDAO.COLUMN_CHILD_NAME, child_name.getText().toString().trim());
                         hashMapData.put(StudentDAO.COLUMN_FATHER_NAME, father_name.getText().toString().trim());
                         hashMapData.put(StudentDAO.COLUMN_CLASS, spinnerClass.getSelectedItem().toString().trim());
@@ -430,6 +439,7 @@ public class DisplayChildProfileFragment extends Fragment
         languageLabel = (TextView) rootView.findViewById(R.id.languageLabel);
         child_name = (EditText) rootView.findViewById(R.id.child_name);
         father_name = (EditText) rootView.findViewById(R.id.father_name);
+        student_id = (EditText) rootView.findViewById(R.id.child_student_id);
 
         ArrayAdapter<String> adapterclass = new ArrayAdapter<String>(mContext, R.layout.spinner_item, child_classarray);
         spinnerClass.setAdapter(adapterclass);

@@ -46,6 +46,8 @@
     <!--ChildListFragment-->
     <string name="childListHeading">Search child</string>
     <string name="info_text">Sync Database Please wait...</string>
+    <string name="student_no">Student No</string>
+    <string name="enter_student_no">enter student no</string>
 
 
 </resources>
