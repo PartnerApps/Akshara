@@ -82,7 +82,7 @@ public class Util extends Application {
 
         PrefUtil.init(this);
 
-        GenieSDK.init(this, PACKAGENAME);
+        GenieSDK.init(this, "org.ekstep.genie");
     }
 
     /*
