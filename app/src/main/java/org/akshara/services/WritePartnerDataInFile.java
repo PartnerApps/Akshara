@@ -210,7 +210,8 @@ public class WritePartnerDataInFile extends Service implements
 
                             DriveFolder folder = folderDriveId.asDriveFolder();
 
-                            final String fileName = mDateFormat.format(new Date());
+                            final String fileName = String.format(Locale.ENGLISH, "%s_%s",
+                                    BuildConfig.APPLICATION_ID, mDateFormat.format(new Date()));
                             MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
                                     .setTitle(fileName)
                                     .setMimeType("text/csv")
