@@ -168,6 +168,7 @@ public class FetchPartnerDataService extends IntentService {
 
                 List<ContentValues> contentValues = new ArrayList<>();
 
+                int counter = 0;
 
                 for (List row : values) {
                     if (DEBUG) {
@@ -187,6 +188,14 @@ public class FetchPartnerDataService extends IntentService {
                         }
 
                         contentValues.add(insertValues);
+
+                        counter++;
+
+                        if (counter % 1000 == 0) {
+                            StudentDAO.getInstance().insertData(contentValues);
+                            contentValues.clear();
+                            counter = 0;
+                        }
                     }
                 }
 
