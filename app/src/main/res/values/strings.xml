@@ -48,6 +48,7 @@
     <string name="info_text">Sync Database Please wait...</string>
     <string name="student_no">Student No</string>
     <string name="enter_student_no">enter student no</string>
+    <string name="manual_sync">Manual Sync</string>
 
 
 </resources>

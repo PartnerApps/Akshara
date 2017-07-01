@@ -11,6 +11,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -96,8 +98,29 @@ public class MainActivity extends AppCompatActivity implements DelegateAction, N
 
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.manual_sync) {
+            Intent intent = new Intent(this, DriveSyncActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initWidget() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
+        setSupportActionBar(mToolbar);
         mToolbar_text = (TextView) mToolbar.findViewById(R.id.toolbar_title);
         mToolbar_menu = (ImageView) mToolbar.findViewById(R.id.imageView_menu);
         mToolbar_back = (ImageView) mToolbar.findViewById(R.id.imageView_back);

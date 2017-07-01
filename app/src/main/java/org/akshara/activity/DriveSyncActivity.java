@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
@@ -15,19 +16,30 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.ExponentialBackOff;
+import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
+import com.google.api.services.sheets.v4.model.ValueRange;
 
+import org.akshara.BuildConfig;
 import org.akshara.R;
 import org.akshara.Util.PrefUtil;
 import org.akshara.services.FetchPartnerDataService;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Show the progress of Partner Data Download
@@ -42,6 +54,9 @@ public class DriveSyncActivity extends AppCompatActivity {
     };
 
     public static final String PREF_ACCOUNT_NAME = "accountName";
+    public static final String PREF_SHEET_NAME = "sheetName";
+
+    private static final String SHEETS_DATA_RANGE = "district_info!A1:A";
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -118,10 +133,79 @@ public class DriveSyncActivity extends AppCompatActivity {
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
             moveToLoginScreen();
         } else {
-            Intent intent = new Intent(this, FetchPartnerDataService.class);
-            startService(intent);
+            displaySheetName();
         }
     }
+
+    private void displaySheetName() {
+        HttpTransport transport = AndroidHttp.newCompatibleTransport();
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+
+        final Sheets mSheetsService = new Sheets.Builder(transport, jsonFactory, mCredential)
+                .setApplicationName(BuildConfig.APPLICATION_ID)
+                .build();
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ValueRange valueRange = mSheetsService.spreadsheets().values()
+                            .get(FetchPartnerDataService.PARTNER_DATA_FILE_ID, SHEETS_DATA_RANGE)
+                            .execute();
+
+
+                    if (valueRange != null && valueRange.size() > 0) {
+                        List<List<Object>> districtSet = valueRange.getValues();
+
+                        if (districtSet != null && districtSet.size() > 0) {
+                            final List<String> district = new ArrayList<>();
+
+                            for (List row : districtSet) {
+                                for (Object data : row) {
+                                    district.add((String) data);
+                                }
+                            }
+
+
+                            Log.i("DriveSyncActivity", "run: " + district);
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    selectDistrict(district);
+                                }
+                            });
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+    private void selectDistrict(List<String> district) {
+        final String [] districtArray = district.toArray(new String[]{});
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.app_name)
+                .setItems(districtArray, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(DriveSyncActivity.this,
+                                FetchPartnerDataService.class);
+                        intent.putExtra(FetchPartnerDataService.EXTRA_DISTRICT, districtArray[which]);
+                        startService(intent);
+                    }
+                })
+                .create();
+
+        dialog.show();
+    }
+
+
 
     /**
      * Attempts to set the account used with the API credentials. If an account

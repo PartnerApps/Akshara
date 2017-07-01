@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Service to download the Partner Data file from Google Drive and update the Local database
@@ -40,7 +41,7 @@ public class FetchPartnerDataService extends IntentService {
 
     private static final boolean DEBUG = BuildConfig.DEBUG;
 
-    private static final String PARTNER_DATA_FILE_ID = "1zz10vYnSOLO9lbnYA4WjECHeLusQUc98p2Frd0Tz_TI";
+    public static final String PARTNER_DATA_FILE_ID = "1F0bEFeuJCRGqs_jm1MiOGg6jkE8ofCNOsbM8HPf56ps";
 
     private static final String SHEETS_DATA_RANGE = "student_info!A2:L";
 
@@ -54,8 +55,14 @@ public class FetchPartnerDataService extends IntentService {
     public static final String EXTRA_RECOVERABLE_INTENT
             = "org.ekstep.partner.akshara.RECOVERABLE_INTENT";
 
+    public static final String EXTRA_DISTRICT = "extra_district";
+
+
 
     static final String DOWNLOAD_FILE_PATH = "/Akshara-ESL/tmp/file.csv";
+
+
+    private String mDistrictName;
 
 
     public FetchPartnerDataService() {
@@ -76,6 +83,10 @@ public class FetchPartnerDataService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         if (DEBUG) {
             Log.i(TAG, "onHandleIntent: ");
+        }
+
+        if (intent != null) {
+            mDistrictName = intent.getStringExtra(EXTRA_DISTRICT);
         }
 
         downloadDataAndSync();
@@ -155,8 +166,11 @@ public class FetchPartnerDataService extends IntentService {
                 Log.i(TAG, "onHandleIntent: ");
             }
 
+            String fileName = String.format(Locale.ENGLISH, "%s!%s", mDistrictName.trim(),
+                    "A2:L");
+
             ValueRange valueRange = mSheetsService.spreadsheets().values()
-                    .get(PARTNER_DATA_FILE_ID, SHEETS_DATA_RANGE)
+                    .get(PARTNER_DATA_FILE_ID, fileName)
                     .execute();
 
             List<List<Object>> values = valueRange.getValues();
