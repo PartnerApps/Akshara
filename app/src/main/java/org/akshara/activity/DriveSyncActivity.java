@@ -23,6 +23,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -179,7 +180,10 @@ public class DriveSyncActivity extends AppCompatActivity {
                         }
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    if (e instanceof UserRecoverableAuthIOException) {
+                        Intent recoverableErrorIntent = ((UserRecoverableAuthIOException) e).getIntent();
+                        startActivityForResult(recoverableErrorIntent, REQUEST_AUTHORIZATION);
+                    }
                 }
             }
         }).start();
