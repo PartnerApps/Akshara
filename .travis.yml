@@ -1,0 +1,58 @@
+language: android
+sudo: required
+jdk: oraclejdk8
+before_cache:
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+env:
+  global:
+  - ANDROID_API=23
+  - EMULATOR_API=23
+  - ANDROID_BUILD_TOOLS=23.0.1
+  - ADB_INSTALL_TIMEOUT=5
+android:
+  components:
+  - tools
+  - platform-tools
+  - build-tools-$ANDROID_BUILD_TOOLS
+  - android-$ANDROID_API
+  - android-$EMULATOR_API_LEVEL
+  - extra-google-m2repository
+  - extra-android-m2repository
+  - addon-google_apis-google-23
+  - sys-img-armeabi-v7a-addon-google_apis-google-$ANDROID_API_LEVEL
+  - sys-img-armeabi-v7a-addon-google_apis-google-$EMULATOR_API_LEVEL
+  licenses:
+  - android-sdk-preview-license-.+
+  - android-sdk-license-.+
+  - google-gdk-license-.+
+before_install:
+- openssl aes-256-cbc -K $encrypted_12b60c242de1_key -iv $encrypted_12b60c242de1_iv
+  -in release_build/secrets.tar.enc -out secrets.tar -d
+- tar xvf secrets.tar
+- mv akshara_gka.jks app
+- chmod +x gradlew
+- "./gradlew dependencies || true"
+before_script:
+#- echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+#- emulator -avd test -no-skin -no-audio -no-window &
+#- android-wait-for-emulator
+#- adb shell input keyevent 82 &
+script:
+- "./gradlew clean assembleRelease -PdisablePreDex --stacktrace"
+before_deploy:
+- cd app/build/outputs/apk/
+deploy:
+  provider: releases
+  file: Akshara-GKA-1.0.1.apk
+  skip_cleanup: true
+  on:
+    repo: PartnerApps/Akshara
+    tags: true
+    jdk: oraclejdk8
+  api_key:
+    secure: "KBdzJ7C4HORsE3WYonWIUi/BNTcL9aBSz+Z5F2gC7G4nJL3YNlSXzmAvFGGoqNZkh7XQSWDtJ00d/BpYSXv8aS00mFHoxQMBVFKHXe0bjUnJmyeLe9DN8wdawseV7u3eMrqFdHkFcKv/edmBtJl/gEFDhuTAC5IO+KlkIms8i0jkdvTES+zJkXEk74K/myeAHYxOvDP8esDIErd9d4Yg+YAQNe/TsP3ohnHmZ3G8FPXIY4cNtOQpaMV0LS259EvzNGVK/ADj2rz9c9074Qu06F33ra8kU7GIfwlHznJ4nrCvtlvh9iT/qQFU85zN1XgE/7PYp3LDQSouRT4oW6hLI/Lhbcb/XJjiGgE8ritowYbwDMxYziLM9SgS4QZjR0ztSKENJYrrcTDAVff5KZgmt5Ccgv9QrqCNtZckHVk87LvDGlG5LreX00ajGjg2QR5puhzouEhRX5hhNXgHO5WMs151bb9HXwOtgkl7HMlMS35lHQy5PyPAjK/pZU77q+hH+1CZSUEEJ5KY8NToWG41BzelL7bwtI7wfKumcSFRo4C70D6bjm7f3EuktFP3gVqO/KR81eNrhU/xM/7Hz30kIUEp9CEWUB3fYMqUq09JiDeVGGqTquHxwNhwOxEgW+mxOgur0zCNsZyNe+3mVAPFuEaflYgyGV/i4ndPVgVo1Zo="
