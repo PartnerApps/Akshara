@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -55,7 +57,15 @@ public class FetchPartnerDataService extends IntentService {
     public static final String EXTRA_RECOVERABLE_INTENT
             = "org.ekstep.partner.akshara.RECOVERABLE_INTENT";
 
+    public static final String EXTRA_ERROR_MESSAGE
+            = "org.ekstep.partner.akshara.ERROR_MESSAGE";
+
     public static final String EXTRA_DISTRICT = "extra_district";
+    public static final String EXTRA_FILE_ID = "extra_file_id";
+
+
+    public static final int ERROR_RECOVERABLE = 1;
+    public static final int ERROR_UN_RECOVERABLE = 2;
 
 
 
@@ -63,6 +73,7 @@ public class FetchPartnerDataService extends IntentService {
 
 
     private String mDistrictName;
+    private String mFileId;
 
 
     public FetchPartnerDataService() {
@@ -87,6 +98,7 @@ public class FetchPartnerDataService extends IntentService {
 
         if (intent != null) {
             mDistrictName = intent.getStringExtra(EXTRA_DISTRICT);
+            mFileId = intent.getStringExtra(EXTRA_FILE_ID);
         }
 
         downloadDataAndSync();
@@ -169,8 +181,12 @@ public class FetchPartnerDataService extends IntentService {
             String fileName = String.format(Locale.ENGLISH, "%s!%s", mDistrictName.trim(),
                     "A2:L");
 
+            if (TextUtils.isEmpty(mFileId)) {
+                mFileId = PARTNER_DATA_FILE_ID;
+            }
+
             ValueRange valueRange = mSheetsService.spreadsheets().values()
-                    .get(PARTNER_DATA_FILE_ID, fileName)
+                    .get(mFileId, fileName)
                     .execute();
 
             List<List<Object>> values = valueRange.getValues();
@@ -232,11 +248,28 @@ public class FetchPartnerDataService extends IntentService {
 
                 Intent intent = new Intent(ACTION_SYNC_STATE);
 
-                intent.putExtra(EXTRA_IS_USER_RECOVERABLE_ERROR, true);
+                intent.putExtra(EXTRA_IS_USER_RECOVERABLE_ERROR, ERROR_RECOVERABLE);
                 intent.putExtra(EXTRA_RECOVERABLE_INTENT, ex.getIntent());
 
                 LocalBroadcastManager.getInstance(this).sendBroadcast(
                         intent);
+            } else if (ioException instanceof GoogleJsonResponseException) {
+                GoogleJsonResponseException ex = (GoogleJsonResponseException) ioException;
+
+                Intent intent = new Intent(ACTION_SYNC_STATE);
+
+                intent.putExtra(EXTRA_IS_USER_RECOVERABLE_ERROR, ERROR_UN_RECOVERABLE);
+                intent.putExtra(EXTRA_ERROR_MESSAGE, ex.getDetails().getMessage());
+
+
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+            } else {
+                Intent intent = new Intent(ACTION_SYNC_STATE);
+
+                intent.putExtra(EXTRA_IS_USER_RECOVERABLE_ERROR, ERROR_UN_RECOVERABLE);
+                intent.putExtra(EXTRA_ERROR_MESSAGE, ioException.getLocalizedMessage());
+
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
             }
         }
 

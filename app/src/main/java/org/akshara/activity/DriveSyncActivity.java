@@ -7,11 +7,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -21,6 +23,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.drive.Drive;
+import com.google.android.gms.drive.DriveId;
+import com.google.android.gms.drive.OpenFileActivityBuilder;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
@@ -63,23 +69,37 @@ public class DriveSyncActivity extends AppCompatActivity {
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+    static final int REQUEST_CODE_FILE_PICKER = 1004;
 
     GoogleAccountCredential mCredential;
+
+    GoogleApiClient mGoogleAPIClient;
+
+    String mFileID = FetchPartnerDataService.PARTNER_DATA_FILE_ID;
 
 
     private BroadcastReceiver mSyncStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null) {
-                boolean isRecoverableError = intent.getBooleanExtra(
-                        FetchPartnerDataService.EXTRA_IS_USER_RECOVERABLE_ERROR, false);
+                int errorCode = intent.getIntExtra(
+                        FetchPartnerDataService.EXTRA_IS_USER_RECOVERABLE_ERROR, -1);
 
-                if (isRecoverableError) {
-                    Intent recoverableErrorIntent = intent
-                            .getParcelableExtra(FetchPartnerDataService.EXTRA_RECOVERABLE_INTENT);
-                    startActivityForResult(recoverableErrorIntent, REQUEST_AUTHORIZATION);
-                } else {
-                    moveToLoginScreen();
+                switch (errorCode) {
+                    case FetchPartnerDataService.ERROR_RECOVERABLE:
+                        Intent recoverableErrorIntent = intent
+                                .getParcelableExtra(FetchPartnerDataService.EXTRA_RECOVERABLE_INTENT);
+                        startActivityForResult(recoverableErrorIntent, REQUEST_AUTHORIZATION);
+                        break;
+
+                    case FetchPartnerDataService.ERROR_UN_RECOVERABLE:
+                        String error = intent.getStringExtra(FetchPartnerDataService.EXTRA_ERROR_MESSAGE);
+                        showErrorMessage(error);
+                        break;
+
+                    default:
+                        moveToLoginScreen();
+                        break;
                 }
             }
         }
@@ -93,6 +113,9 @@ public class DriveSyncActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drive_sync);
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(mSyncStateReceiver,
+                FetchPartnerDataService.getActionIntent());
+
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
@@ -103,19 +126,9 @@ public class DriveSyncActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(mSyncStateReceiver,
-                FetchPartnerDataService.getActionIntent());
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
+    protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mSyncStateReceiver);
+        super.onDestroy();
     }
 
     /**
@@ -134,9 +147,61 @@ public class DriveSyncActivity extends AppCompatActivity {
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
             moveToLoginScreen();
         } else {
-            displaySheetName();
+//            displaySheetName();
+            callFilePicker();
         }
     }
+
+
+    private void callFilePicker() {
+        if (mGoogleAPIClient == null) {
+            mGoogleAPIClient = new GoogleApiClient.Builder(this)
+                    .addApi(Drive.API)
+                    .addScope(Drive.SCOPE_FILE)
+                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                        @Override
+                        public void onConnected(@Nullable Bundle bundle) {
+                            startFilePicker();
+                        }
+
+                        @Override
+                        public void onConnectionSuspended(int i) {
+
+                        }
+                    })
+                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                        @Override
+                        public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+                        }
+                    })
+                    .setAccountName(PrefUtil.getString(DriveSyncActivity.PREF_ACCOUNT_NAME))
+                    .build();
+        }
+
+
+        mGoogleAPIClient.connect();
+
+
+    }
+
+
+    private void startFilePicker() {
+        if (!mGoogleAPIClient.isConnected()) {
+            return;
+        }
+
+        IntentSender intentSender = Drive.DriveApi.newOpenFileActivityBuilder()
+                .setMimeType(new String[]{"application/vnd.google-apps.spreadsheet"})
+                .build(mGoogleAPIClient);
+
+        try {
+            startIntentSenderForResult(intentSender, REQUEST_CODE_FILE_PICKER, null, 0, 0, 0);
+        } catch (IntentSender.SendIntentException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void displaySheetName() {
         HttpTransport transport = AndroidHttp.newCompatibleTransport();
@@ -152,7 +217,7 @@ public class DriveSyncActivity extends AppCompatActivity {
             public void run() {
                 try {
                     ValueRange valueRange = mSheetsService.spreadsheets().values()
-                            .get(FetchPartnerDataService.PARTNER_DATA_FILE_ID, SHEETS_DATA_RANGE)
+                            .get(mFileID, SHEETS_DATA_RANGE)
                             .execute();
 
 
@@ -274,6 +339,18 @@ public class DriveSyncActivity extends AppCompatActivity {
                     downloadPartnerData();
                 }
                 break;
+
+            case REQUEST_CODE_FILE_PICKER:
+                if (resultCode == RESULT_OK) {
+                    DriveId driveId = data.getParcelableExtra(
+                            OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
+                    Log.i("DriveSyncActivity", "onActivityResult: "
+                            + driveId.getResourceId());
+
+                    mFileID = driveId.getResourceId();
+
+                    displaySheetName();
+                }
         }
     }
 
@@ -342,6 +419,28 @@ public class DriveSyncActivity extends AppCompatActivity {
         startActivity(syncIntent);
 
         finish();
+    }
+
+
+    void showErrorMessage(String error) {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.app_name)
+                .setMessage(error)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        moveToLoginScreen();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .create();
+
+        dialog.show();
     }
 
 
