@@ -90,6 +90,24 @@
                 />
 
 
+            <org.akshara.customviews.CustomTextView
+                style="@style/text_style"
+                android:text="@string/grade"
+                custom:fontAssetName="Roboto-Regular.ttf"
+                />
+
+
+            <Spinner
+                android:id="@+id/spinnerGrade"
+                style="@style/spinner_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:padding="@dimen/padding_layout"
+                android:popupBackground="@color/white"
+                />
+
+
         </LinearLayout>
 
     </ScrollView>

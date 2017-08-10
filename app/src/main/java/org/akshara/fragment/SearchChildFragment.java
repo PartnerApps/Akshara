@@ -29,13 +29,13 @@ public class SearchChildFragment extends Fragment {
     private Context mContext;
     private DatabaseHelper mDatabaseHandler;
     private Spinner spinnerDistric, spinnerBlock,
-            spinnerCluster, spinnerSchool;
+            spinnerCluster, spinnerSchool, spinnerGrade;
 
     private String spinnerDistric_selected, spinnerBlock_selected,
             spinnerCluster_selected, spinnerSchool_selected,
-            spinnerSchoolCode_selected;
+            spinnerSchoolCode_selected, spinnerGrade_selected;
     private String spinnerDistric_selected1, spinnerBlock_selected1,
-            spinnerCluster_selected1, spinnerSchool_selected1;
+            spinnerCluster_selected1, spinnerSchool_selected1, spinnerGrade_selected1;
 
     private Fragment mFragment;
     private Util util;
@@ -67,6 +67,7 @@ public class SearchChildFragment extends Fragment {
         spinnerBlock = (Spinner) rootView.findViewById(R.id.spinnerBlock);
         spinnerCluster = (Spinner) rootView.findViewById(R.id.spinnerCluster);
         spinnerSchool = (Spinner) rootView.findViewById(R.id.spinnerSchool);
+        spinnerGrade = (Spinner) rootView.findViewById(R.id.spinnerGrade);
         Button SearchChild_btn = (Button) rootView.findViewById(R.id.SearchChild_btn);
         Util.hideKeyboard(getActivity(), mContext);
 
@@ -79,7 +80,11 @@ public class SearchChildFragment extends Fragment {
                     Toast.makeText(mContext, getString(R.string.block_default), Toast.LENGTH_LONG).show();
                 } else if (spinnerCluster_selected.equals(getString(R.string.cluster_default))) {
                     Toast.makeText(mContext, getString(R.string.cluster_default), Toast.LENGTH_LONG).show();
-                } else if (!spinnerSchool_selected.equals(getString(R.string.school_default))) {
+                } else if (spinnerSchool_selected.equals(getString(R.string.school_default))) {
+                    Toast.makeText(mContext, getString(R.string.school_default), Toast.LENGTH_LONG).show();
+                } else if (spinnerGrade_selected.equals(getString(R.string.grade_default))) {
+                    Toast.makeText(mContext, getString(R.string.grade_default), Toast.LENGTH_LONG).show();
+                } else {
                     NewChildListFragment childListFragment = new NewChildListFragment();
                     util.setSpinnerDistric_selected(spinnerDistric_selected);
                     util.setSpinnerBlock_selected(spinnerBlock_selected);
@@ -88,16 +93,16 @@ public class SearchChildFragment extends Fragment {
                     int pos = adapterSchool.getPosition(spinnerSchool_selected);
                     spinnerSchoolCode_selected = codeList.get(pos);
                     util.setSpinnerSchoolCode_selected(spinnerSchoolCode_selected);
+                    util.setSpinnerGrade_selected(spinnerGrade_selected);
                     Bundle bundle = new Bundle();
                     bundle.putString("spinnerDistric_selected", spinnerDistric_selected);
                     bundle.putString("spinnerBlock_selected", spinnerBlock_selected);
                     bundle.putString("spinnerCluster_selected", spinnerCluster_selected);
                     bundle.putString("spinnerSchool_selected", spinnerSchool_selected);
                     bundle.putString("spinnerSchoolCode_selected", spinnerSchoolCode_selected);
+                    bundle.putString("spinnerGrade_selected", spinnerGrade_selected);
                     childListFragment.setArguments(bundle);
                     ((MainActivity) mContext).switchContent(childListFragment, 1, true);
-                } else {
-                    Toast.makeText(mContext, getString(R.string.school_default), Toast.LENGTH_LONG).show();
                 }
 
 
@@ -109,7 +114,6 @@ public class SearchChildFragment extends Fragment {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.spinner_item,
                 districtList);
-        spinnerDistric.setAdapter(adapter);
         adapter.setDropDownViewResource(R.layout.spinner_popup_item);
         spinnerDistric.setAdapter(adapter);
         //  spinnerDistric.setBackgroundDrawable(R.drawable.btn_dropdown_normal);
@@ -120,6 +124,7 @@ public class SearchChildFragment extends Fragment {
         spinnerBlock_selected1 = util.getSpinnerBlock_selected();
         spinnerCluster_selected1 = util.getSpinnerCluster_selected();
         spinnerSchool_selected1 = util.getSpinnerSchool_selected();
+        spinnerBlock_selected1 = util.getSpinnerGrade_selected();
        /* if(D)
             Log.d(TAG,"spinnerDistric_selected:"+spinnerDistric_selected1);
         if(D)
@@ -143,6 +148,7 @@ public class SearchChildFragment extends Fragment {
                     spinnerBlock_selected1 = null;
                     spinnerCluster_selected1 = null;
                     spinnerSchool_selected1 = null;
+                    spinnerGrade_selected1 = null;
                 }
                 setBlockData(spinnerDistric_selected);
             }
@@ -162,6 +168,7 @@ public class SearchChildFragment extends Fragment {
                     spinnerBlock_selected1 = null;
                     spinnerCluster_selected1 = null;
                     spinnerSchool_selected1 = null;
+                    spinnerGrade_selected1 = null;
                 }
                 setClusterData(spinnerDistric_selected, spinnerBlock_selected);
             }
@@ -181,6 +188,7 @@ public class SearchChildFragment extends Fragment {
                     spinnerBlock_selected1 = null;
                     spinnerCluster_selected1 = null;
                     spinnerSchool_selected1 = null;
+                    spinnerGrade_selected1 = null;
                 }
                 setSchoolData(spinnerDistric_selected, spinnerBlock_selected, spinnerCluster_selected);
 
@@ -197,6 +205,35 @@ public class SearchChildFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 spinnerSchool_selected = parent.getItemAtPosition(position).toString();
 
+                if (!spinnerSchool_selected.equals(spinnerSchool_selected1)) {
+                    spinnerDistric_selected1 = null;
+                    spinnerBlock_selected1 = null;
+                    spinnerCluster_selected1 = null;
+                    spinnerSchool_selected1 = null;
+                    spinnerGrade_selected1 = null;
+                }
+                setGradeData(spinnerDistric_selected, spinnerBlock_selected, spinnerCluster_selected,
+                        spinnerSchool_selected);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinnerGrade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinnerGrade_selected = parent.getItemAtPosition(position).toString();
+
+                if (!spinnerGrade_selected.equals(spinnerGrade_selected1)) {
+                    spinnerDistric_selected1 = null;
+                    spinnerBlock_selected1 = null;
+                    spinnerCluster_selected1 = null;
+                    spinnerSchool_selected1 = null;
+                    spinnerGrade_selected1 = null;
+                }
             }
 
             @Override
@@ -208,6 +245,8 @@ public class SearchChildFragment extends Fragment {
 
         return rootView;
     }
+
+
 
     private void setBlockData(String district) {
         ArrayList<String> blockList = StudentDAO.getInstance()
@@ -276,6 +315,24 @@ public class SearchChildFragment extends Fragment {
         }
 
 
+    }
+
+    private void setGradeData(String district, String block,
+                              String cluster, String school) {
+        ArrayList<String> clusterList = StudentDAO.getInstance()
+                .getUniqueFieldData(StudentDAO.COLUMN_CLASS, getString(R.string.grade_default),
+                        StudentDAO.COLUMN_DISTRICT, StudentDAO.COLUMN_BLOCK,
+                        StudentDAO.COLUMN_CLUSTER, StudentDAO.COLUMN_SCHOOL_NAME, district,
+                        block, cluster, school);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.spinner_item,
+                clusterList);
+        spinnerGrade.setAdapter(adapter);
+        adapter.setDropDownViewResource(R.layout.spinner_popup_item);
+        spinnerGrade.setAdapter(adapter);
+        if (spinnerGrade_selected1 != null) {
+            int pos = adapter.getPosition(spinnerGrade_selected1);
+            spinnerGrade.setSelection(pos);
+        }
     }
 
 

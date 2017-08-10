@@ -178,8 +178,7 @@ public class FetchPartnerDataService extends IntentService {
                 Log.i(TAG, "onHandleIntent: ");
             }
 
-            String fileName = String.format(Locale.ENGLISH, "%s!%s", mDistrictName.trim(),
-                    "A2:L");
+            String fileName = String.format(Locale.ENGLISH, "%s!%s", "data", "A2:L");
 
             if (TextUtils.isEmpty(mFileId)) {
                 mFileId = PARTNER_DATA_FILE_ID;
@@ -214,7 +213,7 @@ public class FetchPartnerDataService extends IntentService {
 
                         for (int index = 0; index < row.size(); index++) {
                             insertValues.put(StudentDAO.DEFAULT_INSERT_COLUMN_MAP[index],
-                                    row.get(index).toString());
+                                    row.get(index).toString().trim());
                         }
 
                         contentValues.add(insertValues);

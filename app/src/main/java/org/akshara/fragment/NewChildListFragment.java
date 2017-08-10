@@ -91,6 +91,7 @@ public class NewChildListFragment extends Fragment implements IEndSession, IUser
     private String mSelectedClustor;
     private String mSelectedSchool;
     private String mSelectedSchoolCode;
+    private String mGrade;
 
     private String mSelectedStudentId;
     private String mSelectedStudentUID;
@@ -122,6 +123,7 @@ public class NewChildListFragment extends Fragment implements IEndSession, IUser
             mSelectedClustor = getArguments().getString("spinnerCluster_selected");
             mSelectedSchool = getArguments().getString("spinnerSchool_selected");
             mSelectedSchoolCode = getArguments().getString("spinnerSchoolCode_selected");
+            mGrade = getArguments().getString("spinnerGrade_selected");
         }
     }
 
@@ -191,7 +193,7 @@ public class NewChildListFragment extends Fragment implements IEndSession, IUser
                         // get suggestions from the database
 
                         mStudentInfoArray = StudentDAO.getInstance().getAllStudentInfoObject(
-                                mSelectedSchoolCode, userInput.toString());
+                                mSelectedSchoolCode, mGrade, userInput.toString());
 
                         // update the adapter
                         mChildAdapter = new ChildsAdapter(getActivity(), R.layout.spinner_popup_item, mStudentInfoArray);

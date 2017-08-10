@@ -189,6 +189,10 @@ public final class StudentDAO {
 
         }
 
+        if (fieldData.size() == 2) {
+            fieldData.remove(0);
+        }
+
         if (cursor != null) {
             cursor.close();
         }
@@ -269,6 +273,10 @@ public final class StudentDAO {
         } else {
             throw new IllegalArgumentException("optionalParams is null or not having even length" +
                     " args");
+        }
+
+        if (fieldData.size() == 2) {
+            fieldData.remove(0);
         }
 
         return fieldData;
@@ -390,18 +398,20 @@ public final class StudentDAO {
 
 
 
-    public StudentInfo [] getAllStudentInfoObject(String schoolCode, String searchBy) {
+    public StudentInfo [] getAllStudentInfoObject(String schoolCode, String grade, String searchBy) {
         StudentInfo[] studentInfos = new StudentInfo[0];
 
-        if (TextUtils.isEmpty(schoolCode) || TextUtils.isEmpty(searchBy)) {
+        if (TextUtils.isEmpty(schoolCode) || TextUtils.isEmpty(searchBy)
+                || TextUtils.isEmpty(grade)) {
             throw new IllegalArgumentException("Some parameters are null");
         }
 
         final String selection = COLUMN_SCHOOL_CODE + " = ? AND " + COLUMN_CHILD_NAME
-                + " LIKE '%" + searchBy + "%'";
+                + " LIKE '%" + searchBy + "%' AND " + COLUMN_CLASS + " = ?";
 
         final String []selectionArgs = {
-                schoolCode
+                schoolCode,
+                grade
         };
 
         Cursor cursor = PartnerDB.getInstance().query(TABLE_NAME, null, selection, selectionArgs,

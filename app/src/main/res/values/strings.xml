@@ -37,6 +37,7 @@
     <string name="block_default">PLEASE SELECT BLOCK</string>
     <string name="cluster_default">PLEASE SELECT CLUSTER</string>
     <string name="school_default">PLEASE SELECT SCHOOL</string>
+    <string name="grade_default">PLEASE SELECT GRADE</string>
     <string name="District">District</string>
     <string name="Block">Block</string>
     <string name="Cluster">Cluster</string>
@@ -49,6 +50,7 @@
     <string name="student_no">Student No</string>
     <string name="enter_student_no">enter student no</string>
     <string name="manual_sync">Manual Sync</string>
+    <string name="grade">Grade</string>
 
 
 </resources>

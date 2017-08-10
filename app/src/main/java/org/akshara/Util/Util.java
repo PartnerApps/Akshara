@@ -63,6 +63,7 @@ public class Util extends Application {
 //    private UserProfile userProfile;
 //    private Telemetry telemetry;
     private long startTime;
+    private String spinnerGrade_selected;
 
     public Util() {
     }
@@ -261,6 +262,14 @@ public class Util extends Application {
         this.spinnerCluster_selected = spinnerCluster_selected;
     }
 
+    public void setSpinnerGrade_selected(String spinnerGrade_selected) {
+        this.spinnerGrade_selected = spinnerGrade_selected;
+    }
+
+    public String getSpinnerGrade_selected() {
+        return this.spinnerGrade_selected;
+    }
+
     public void storeUserModel(HashMap<String, UserModel> hashMapTemplate_data) {
         // Convert the object to a JSON string
         String json = new Gson().toJson(hashMapTemplate_data);
@@ -312,5 +321,6 @@ public class Util extends Application {
             return false;
 
     }
+
 
 }

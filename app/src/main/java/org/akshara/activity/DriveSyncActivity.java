@@ -349,7 +349,12 @@ public class DriveSyncActivity extends AppCompatActivity {
 
                     mFileID = driveId.getResourceId();
 
-                    displaySheetName();
+                    Intent fetchPartnerService = new Intent(DriveSyncActivity.this,
+                            FetchPartnerDataService.class);
+                    fetchPartnerService.putExtra(FetchPartnerDataService.EXTRA_FILE_ID, mFileID);
+                    startService(fetchPartnerService);
+
+//                    displaySheetName();
                 }
         }
     }
