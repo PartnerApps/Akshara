@@ -48,7 +48,7 @@ before_deploy:
 - cd app/build/outputs/apk/
 deploy:
   provider: releases
-  file: Akshara-GKA-1.0.1.apk
+  file: Akshara-GKA-1.0.2.apk
   skip_cleanup: true
   on:
     repo: PartnerApps/Akshara
