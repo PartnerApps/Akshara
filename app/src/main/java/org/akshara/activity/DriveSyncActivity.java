@@ -70,6 +70,7 @@ public class DriveSyncActivity extends AppCompatActivity {
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
     static final int REQUEST_CODE_FILE_PICKER = 1004;
+    static final int REQUEST_CODE_GOOGLE_API_CONNECT_RES = 1005;
 
     GoogleAccountCredential mCredential;
 
@@ -172,13 +173,27 @@ public class DriveSyncActivity extends AppCompatActivity {
                     .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
                         @Override
                         public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                            if (connectionResult.hasResolution()) {
+                                try {
+                                    connectionResult.startResolutionForResult(
+                                            DriveSyncActivity.this,
+                                            REQUEST_CODE_GOOGLE_API_CONNECT_RES);
+                                } catch (IntentSender.SendIntentException e) {
+                                    e.printStackTrace();
+                                    showErrorMessage("Not able to connect Google API");
+                                }
 
+                            }
                         }
                     })
                     .setAccountName(PrefUtil.getString(DriveSyncActivity.PREF_ACCOUNT_NAME))
                     .build();
         }
 
+        if (mGoogleAPIClient.isConnected()) {
+            startFilePicker();
+            return;
+        }
 
         mGoogleAPIClient.connect();
 
@@ -356,6 +371,12 @@ public class DriveSyncActivity extends AppCompatActivity {
 
 //                    displaySheetName();
                 }
+                break;
+
+            case REQUEST_CODE_GOOGLE_API_CONNECT_RES:
+                downloadPartnerData();
+                break;
+
         }
     }
 
