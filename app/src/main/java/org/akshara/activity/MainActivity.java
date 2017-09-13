@@ -365,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements DelegateAction, N
     public void exitApp() {
         if (D)
             Log.d(TAG, "exitApp");
-        MainActivity.this.finish();//org.ekstep.genieservices
+//        MainActivity.this.finish();//org.ekstep.genieservices
         openApp(MainActivity.this, "org.ekstep.genieservices");
 
     }

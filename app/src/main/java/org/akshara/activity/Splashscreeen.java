@@ -59,11 +59,16 @@ public class Splashscreeen extends Activity implements IRegister, IStartSession 
     private PartnerService mPartnerService;
 
 
+    private boolean mDoRegistration = true;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splashscreen);
+
+        mDoRegistration = true;
 
 
 //        if (Utils.isAppInstalled(this, Util.PACKAGENAME)) {
@@ -84,7 +89,9 @@ public class Splashscreeen extends Activity implements IRegister, IStartSession 
         super.onResume();
 
         if (Utils.isAppInstalled(this, Util.PACKAGENAME)) {
-            registerPartnerApp();
+            if (mDoRegistration) {
+                registerPartnerApp();
+            }
         } else {
             Toast.makeText(this, "Genie must be installed for App work", Toast.LENGTH_SHORT)
                     .show();
@@ -147,6 +154,8 @@ public class Splashscreeen extends Activity implements IRegister, IStartSession 
 
         Util.processSendFailure(this, genieResponse);
 
+        mDoRegistration = true;
+
         new Handler().post(new Runnable() {
             @Override
             public void run() {
@@ -186,6 +195,8 @@ public class Splashscreeen extends Activity implements IRegister, IStartSession 
         RegisterResponseHandler registerResponseHandler = new RegisterResponseHandler(this);
 
         mPartnerService.registerPartner(partnerData, registerResponseHandler);
+
+        mDoRegistration = false;
 
     }
 
