@@ -2,12 +2,12 @@ package org.akshara.Util;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.akshara.BuildConfig;
 import org.akshara.R;
 import org.akshara.db.PartnerDB;
 import org.akshara.model.UserModel;
@@ -28,8 +29,8 @@ import java.util.HashMap;
 /**
  * Created by Jaya on 9/24/2015.
  */
-public class Util extends Application {
-    public static final boolean DEBUG = false;
+public class Util extends MultiDexApplication {
+    public static final boolean DEBUG = BuildConfig.DEBUG;
     public static final String PACKAGENAME = "org.ekstep.genieservices";
     public static final String partnerId = "org.ekstep.partner.akshara";
     public static final String publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvgDm/lRk4ZU4ZUAaLRqX\n" +
