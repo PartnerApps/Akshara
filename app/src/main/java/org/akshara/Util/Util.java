@@ -84,7 +84,7 @@ public class Util extends MultiDexApplication {
 
         PrefUtil.init(this);
 
-        GenieSDK.init(this, "org.ekstep.genie");
+        GenieSDK.init(this, "org.ekstep.genieservices");
     }
 
     /*
