@@ -293,22 +293,6 @@ public class NewChildListFragment extends Fragment implements IEndSession, IUser
             Log.i(TAG, "sendPartnerDataToGenie: Selected Student Details : " + mSelectedStudentMap);
         }
 
-        PartnerData partnerData = new PartnerData(null, null, Util.partnerId, null, Util.publicKey);
-
-        mPartnerService = GenieSDK.getGenieSDK().getPartnerService();
-        EndSessionResponseHandler endSessionResponseHandler = new EndSessionResponseHandler(this);
-        mPartnerService.endPartnerSession(partnerData, endSessionResponseHandler);
-    }
-
-
-    @Override
-    public void onSuccessEndSession(GenieResponse genieResponse) {
-        String response = mGson.toJson(genieResponse);
-
-        if (DEBUG) {
-            Log.i(TAG, "onSuccessEndSession: " + response);
-        }
-
         mUserService = GenieSDK.getGenieSDK().getUserService();
 
 
@@ -352,6 +336,24 @@ public class NewChildListFragment extends Fragment implements IEndSession, IUser
                     = new UserProfileCreateResponseHandler(this);
 
             mUserService.createUserProfile(profile, userProfileCreateResponseHandler);
+        }
+
+
+    }
+
+
+    @Override
+    public void onSuccessEndSession(GenieResponse genieResponse) {
+        String response = mGson.toJson(genieResponse);
+
+        if (DEBUG) {
+            Log.i(TAG, "onSuccessEndSession: " + response);
+        }
+
+        Util.processSuccess(getActivity(), genieResponse);
+
+        if (getActivity() != null && getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).exitApp();
         }
     }
 
@@ -411,6 +413,8 @@ public class NewChildListFragment extends Fragment implements IEndSession, IUser
 
         JSONObject partnerJSONObject = new JSONObject(partnerDataMap);
         PartnerDataResponseHandler responseHandler = new PartnerDataResponseHandler(this);
+
+        mPartnerService = GenieSDK.getGenieSDK().getPartnerService();
 
         PartnerData partnerData = new PartnerData(null, null, Util.partnerId,
                 partnerJSONObject.toString(), Util.publicKey);
@@ -487,11 +491,13 @@ public class NewChildListFragment extends Fragment implements IEndSession, IUser
         if (DEBUG) {
             Log.i(TAG, "onSuccessTelemetry: " + mGson.toJson(genieResponse));
         }
-        Util.processSuccess(getActivity(), genieResponse);
 
-        if (getActivity() != null && getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).exitApp();
-        }
+
+        PartnerData partnerData = new PartnerData(null, null, Util.partnerId, null, Util.publicKey);
+
+
+        EndSessionResponseHandler endSessionResponseHandler = new EndSessionResponseHandler(this);
+        mPartnerService.endPartnerSession(partnerData, endSessionResponseHandler);
 
     }
 

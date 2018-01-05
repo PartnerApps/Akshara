@@ -413,13 +413,27 @@ public class DisplayChildProfileFragment extends Fragment
         hashMapData.put(StudentDAO.COLUMN_SCHOOL_NAME, util.getSpinnerSchool_selected().trim());
         hashMapData.put(StudentDAO.COLUMN_SCHOOL_CODE, util.getSpinnerSchoolCode_selected().toLowerCase().trim());
 
+        Profile profile = new Profile(handle, Util.avatar, code);
+        profile.setGender(hashMapData.get(StudentDAO.COLUMN_SEX).toString());
 
-        // hashMapData.put(StudentInfoDb.mother_tongue,code.trim());
-        //1. End the session
-        mPartnerService = GenieSDK.getGenieSDK().getPartnerService();
-        PartnerData partnerData = new PartnerData(null, null, Util.partnerId, null, Util.publicKey);
-        EndSessionResponseHandler endSessionResponseHandler = new EndSessionResponseHandler(this);
-        mPartnerService.endPartnerSession(partnerData, endSessionResponseHandler);
+        try {
+            profile.setStandard(
+                    Integer.parseInt(hashMapData.get(StudentDAO.COLUMN_CLASS).toString()));
+        } catch (Exception ex) {
+            if (DEBUG) {
+                Log.e(TAG, "onSuccessEndSession: ", ex);
+            }
+        }
+
+        UserProfileCreateResponseHandler userProfileCreateResponseHandler
+                = new UserProfileCreateResponseHandler(this);
+
+        mUserService = GenieSDK.getGenieSDK().getUserService();
+
+        mUserService.createUserProfile(profile, userProfileCreateResponseHandler);
+
+
+
 
 
         if (D)
@@ -657,24 +671,9 @@ public class DisplayChildProfileFragment extends Fragment
             Log.i(TAG, "onSuccessEndSession: " + mGson.toJson(genieResponse));
         }
 
-        Profile profile = new Profile(handle, Util.avatar, code);
-        profile.setGender(hashMapData.get(StudentDAO.COLUMN_SEX).toString());
-
-        try {
-            profile.setStandard(
-                    Integer.parseInt(hashMapData.get(StudentDAO.COLUMN_CLASS).toString()));
-        } catch (Exception ex) {
-            if (DEBUG) {
-                Log.e(TAG, "onSuccessEndSession: ", ex);
-            }
-        }
-
-        UserProfileCreateResponseHandler userProfileCreateResponseHandler
-                = new UserProfileCreateResponseHandler(this);
-
-        mUserService = GenieSDK.getGenieSDK().getUserService();
-
-        mUserService.createUserProfile(profile, userProfileCreateResponseHandler);
+        Util.processSuccess(mContext, genieResponse);
+        //8 exit the app
+        ((MainActivity) mContext).exitApp();
     }
 
     @Override
@@ -757,6 +756,7 @@ public class DisplayChildProfileFragment extends Fragment
         hashMapData.put(StudentDAO.COLUMN_UID, UID);
 
         JSONObject partnerJSONObject = new JSONObject(hashMapData);
+        mPartnerService = GenieSDK.getGenieSDK().getPartnerService();
 
         PartnerDataResponseHandler responseHandler = new PartnerDataResponseHandler(this);
 
@@ -804,9 +804,14 @@ public class DisplayChildProfileFragment extends Fragment
             Log.i(TAG, "onSuccessTelemetry: " + mGson.toJson(genieResponse));
         }
 
-        Util.processSuccess(mContext, genieResponse);
-        //8 exit the app
-        ((MainActivity) mContext).exitApp();
+        // hashMapData.put(StudentInfoDb.mother_tongue,code.trim());
+        //1. End the session
+        mPartnerService = GenieSDK.getGenieSDK().getPartnerService();
+        PartnerData partnerData = new PartnerData(null, null, Util.partnerId, null, Util.publicKey);
+        EndSessionResponseHandler endSessionResponseHandler = new EndSessionResponseHandler(this);
+        mPartnerService.endPartnerSession(partnerData, endSessionResponseHandler);
+
+
     }
 
     @Override
