@@ -2,11 +2,13 @@ apply plugin: 'com.android.application'
 buildscript {
     repositories {
         maven { url  "https://platform.ekstep.in/downloads/content/repositories/production" }
+        maven { url  "https://platform.ekstep.in/downloads/content/repositories/releases" }
     }
 }
 
 repositories {
     maven { url "https://platform.ekstep.in/downloads/content/repositories/production" }
+    maven { url "https://platform.ekstep.in/downloads/content/repositories/releases" }
 }
 
 android {
@@ -14,7 +16,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        ext.buildNumber = System.getenv("BUILD_NUMBER") ?: "3"
+        ext.buildNumber = System.getenv("BUILD_NUMBER") ?: "4"
 
         applicationId "org.akshara"
         minSdkVersion 16
@@ -70,7 +72,7 @@ dependencies {
 //    compile "org.ekstep.genieservices:aidls:1.5.17@aar"
     compile 'com.github.clans:fab:1.6.1'
 
-    compile "org.ekstep.genieservices:genie-integration:1.0.32"
+    compile "org.ekstep.genieservices:genie-integration:1.0.44"
     compile 'com.google.code.gson:gson:2.8.1'
 
     compile "com.google.android.gms:play-services-auth:10.2.4"
